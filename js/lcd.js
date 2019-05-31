@@ -13,11 +13,6 @@ var character =
   '-': [' ', ' ', ' ', '-', ' ', ' ', ' '],
 };
 
-function space(tam) {
-  var s = ' ';
-  return s;
-}
-
 function r(rid, number, tam) {
   var s = "";
   for(var ni=0; ni < number.length; ni++) {
@@ -25,7 +20,7 @@ function r(rid, number, tam) {
 
     s += ' ';
     for(var i=0; i < tam; i++) {
-      s+=character [digit][rid];  		
+      s+=character [digit][rid];      
     }
     s += '  ';
   }
@@ -37,16 +32,19 @@ function r(rid, number, tam) {
 function c(cid, number, tam) {
   var s = "";
   for(var i = 0; i < tam; i++) {
+    
     for(var ni=0; ni < number.length; ni++) {
       var digit = number[ni];
 
       s+=character [digit][cid];
+      
       for(var j=0; j < tam; j++) {
         s+=' ';
       }
+      
       s+=character [digit][cid+1];
 
-      s += space(tam);
+      s += ' ';
     }
     s += '\n';
   }
@@ -74,9 +72,6 @@ function refresh2(event) {
 }
 
 onload = function() {
-  document.getElementById('txt').focus();
-  document.getElementById('txt').onchange = refresh;
-  document.getElementById('txt').onkeyup = refresh2;
   document.getElementById('tamanho').onchange = refresh;
   refresh();
 }
@@ -93,6 +88,6 @@ function getTime() {
 }
 
 function checkTime(i) {
-  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  if (i < 10) {i = "0" + i};  // Adiciona o 0 na frente dos números menores que 10
   return i;
 }
