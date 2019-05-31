@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <script src='js/lcd.js'></script>
+  <style>
+    body {
+      color: black;
+      font-family: menlo, monaco, monospace;
+      background-color: black;
+    }    
+    #display {
+      font-weight: bold;
+      color: white;
+    }
+    input {
+      border: 2px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <div id="clock"></div>
+
+  <form onsubmit="return false;" id="myform">
+    number: <input type="text" value="29-08-1765" id="txt" name="txt" tabindex=1/>
+    /
+    <label for="tamanho">Tamanho: </label>
+    <select id="tamanho">
+      <option value="1">1</option>
+      <option value="2" selected>2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </form>
+  <pre id="display">
+    <pre>
+
+    </body>
+    </html>
