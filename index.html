@@ -4,7 +4,7 @@
   <script src='js/lcd.js'></script>
   <style>
     body {
-      color: black;
+      color: white;
       font-family: menlo, monaco, monospace;
       background-color: black;
     }    
@@ -18,10 +18,13 @@
   </style>
 </head>
 <body>
-  <div id="clock"></div>
-
   <form onsubmit="return false;" id="myform">
-    Fuso Horário: <input type="text" value="29-08-1765" id="txt" name="txt" tabindex=1/>
+    <script>
+    </script>
+    <label for="fusoHorario">Fuso Horário: </label>
+    <select id="fusoHorario">
+      <option value='local'>Horário Local</option>
+    </select>
     /
     <label for="tamanho">Tamanho: </label>
     <select id="tamanho">
@@ -32,7 +35,26 @@
       <option value="5">5</option>
     </select>
   </form>
-  <pre id="display">
+
+  <pre id="display"/>
+
+  <script>
+    //Faz a requisição da lista de Timezones na API e cria uma lista de options para escolha do usuário.
+    var response = '';
+    var fusos = document.getElementById('fusoHorario');
+    var request = new XMLHttpRequest()
+    request.open('GET', 'http://worldtimeapi.org/api/timezone')
+    request.onload = function () {
+      response = JSON.parse(request.responseText);
+      for(var i = 0; i < response.length ; i++) {
+        var option = document.createElement('option');
+        option.value = response[i];
+        option.text = response[i];
+        fusos.add(option);
+      }
+    }
+    request.send();
+  </script>
 
 </body>
 </html>
