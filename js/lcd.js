@@ -74,41 +74,36 @@ function refresh(event) {
   var display = document.getElementById('display');
   var timezone = document.getElementById('fusoHorario').value;
   var tam = document.getElementById('tamanho').value;
-  if (timezone == 'local') {
-    display.textContent = formatarTexto(getTimeLocal(), tam);
-  } else {
-    getTimeFuso(timezone, tam);
+  if (event) {
+    getTime(timezone,tam);
   }
-  //clock();
-  //var t = setTimeout(refresh, 1000);
 }
 
-// Retorna o horário local
-function getTimeLocal() {
-  var hora = new Date();
-  var h = hora.getHours();
-  var m = hora.getMinutes();
-  var s = hora.getSeconds();
-  return setHora(h,m,s);
-}
-
+//Verifica qual o local que está sendo feito a requisição
 //Faz uma requisição à API de qual o horário da região escolhida na view
-function getTimeFuso(timezone, tam) {
-  var request = new XMLHttpRequest()
-  request.open('GET', 'http://worldtimeapi.org/api/timezone/'+timezone)
-  request.onload = function () {
-    response = JSON.parse(request.responseText);
-    //O Date do Javascript não foi capaz de dar parse no padrão de data oferecido pela API
-    //Foi necessário a remoção do UTC no final da string de data
-    hora = response.datetime.replace(response.utc_offset, '');
-    var hora = new Date(hora);
+function getTime(timezone, tam) {
+  if (timezone == 'local') {
+    var hora = new Date();
     var h = hora.getHours();
     var m = hora.getMinutes();
     var s = hora.getSeconds();
     var tempo = setHora(h,m,s);
     display.textContent = formatarTexto(tempo, tam);
+  } else {
+    fetch(`http://worldtimeapi.org/api/timezone/${timezone}`)
+    .then(res => res.json())
+    .then(json => {
+      //O Date do Javascript não foi capaz de dar parse no padrão de data oferecido pela API
+      //Foi necessário a remoção do UTC no final da string de data
+      hora = json.datetime.replace(json.utc_offset, '');
+      var hora = new Date(hora);
+      var h = hora.getHours();
+      var m = hora.getMinutes();
+      var s = hora.getSeconds();
+      var tempo = setHora(h,m,s);
+      display.textContent = formatarTexto(tempo, tam);
+    });
   }
-  request.send();
 }
 
 // Adiciona o 0 na frente dos números menores que 10
@@ -139,10 +134,9 @@ function getHora() {
   };
 }
 
-// Estou tentando fazer essa parte do código auto-iterar o valor
+// Faz o funcionamento do relógio, aumentando o tempo.
 function clock() {
   var hora = getHora();
-
   hora['s']++;
   if(hora['s'] == 60){
     hora['s'] = 0;
@@ -158,10 +152,10 @@ function clock() {
   var tam = document.getElementById('tamanho').value;
   display = document.getElementById('display');
   display.textContent = formatarTexto(setHora(hora['h'],hora['m'],hora['s']),tam);
-  var clock = setTimeout(clock, 1000);
+  var t = setTimeout(clock, 1000);
 };
 
-// Verifica se há alguma alteração na view
+// Inicializa junto com a view, e verifica alterações nela
 onload = function() {
   document.getElementById('fusoHorario').onchange = refresh;
   document.getElementById('tamanho').onchange = refresh;
