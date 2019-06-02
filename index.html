@@ -43,21 +43,17 @@
 
   <script>
     //Faz a requisição da lista de Timezones na API e cria uma lista de options para escolha do usuário.
-    var response = '';
     var fusos = document.getElementById('fusoHorario');
-    var request = new XMLHttpRequest()
-    request.open('GET', 'http://worldtimeapi.org/api/timezone')
-    request.onload = function () {
-      response = JSON.parse(request.responseText);
-      for(var i = 0; i < response.length ; i++) {
+    fetch('http://worldtimeapi.org/api/timezone')
+    .then(res => res.json())
+    .then(json => {
+      for(var i = 0; i < json.length ; i++) {
         var option = document.createElement('option');
-        option.value = response[i];
-        option.text = response[i];
+        option.value = json[i];
+        option.text = json[i];
         fusos.add(option);
       }
-    }
-    request.send();
+    });
   </script>
-
 </body>
 </html>

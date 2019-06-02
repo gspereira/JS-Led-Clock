@@ -1,5 +1,5 @@
-//Define o desenho de cada número manualmente, para aumentar o tamanho
-//os caracteres são duplicados.
+//Define o desenho de cada número manualmente, para aumentar o tamanho os caracteres são duplicados.
+//Dentro da pasta do código há uma imagem demonstrando qual foi a lógica seguida para criar os números.
 var digits = {
   0: ['-', '|', '|', ' ', '|', '|', '-'],
   1: [' ', ' ', '|', ' ', ' ', '|', ' '],
@@ -108,7 +108,9 @@ function getTime(timezone, tam) {
 
 // Adiciona o 0 na frente dos números menores que 10
 function checkTime(i) {
-  if (i < 10) {i = "0" + i};
+  if (i < 10 && i.length != 2) {
+    i = "0" + i;
+  };
   return i;
 }
 
@@ -159,6 +161,6 @@ function clock() {
 onload = function() {
   document.getElementById('fusoHorario').onchange = refresh;
   document.getElementById('tamanho').onchange = refresh;
-  refresh();
+  refresh(event);
   clock();
 }
